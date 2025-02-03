@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "description": "An intelligent codebase analyzer that creates AI-friendly documentation",
   "license": "MIT",
-  "bin": "dist/cli.js",
+  "bin": {
+    "babar": "./dist/cli.js"
+  },
   "type": "module",
   "engines": {
     "node": ">=16"
   },
   "scripts": {
-    "build": "babel --out-dir=dist source",
+    "build": "babel --out-dir=dist source && chmod +x dist/cli.js",
     "dev": "babel --out-dir=dist --watch source",
     "test": "prettier --check . && xo && ava",
     "prepublishOnly": "npm run build"
