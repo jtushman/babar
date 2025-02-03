@@ -1,14 +1,14 @@
 import { readFile, writeFile, stat } from 'fs/promises';
 import { join, relative, basename } from 'path';
 import { OpenAI } from 'openai';
-import { config } from 'dotenv';
-import { readdir } from 'fs/promises';
-
-config();
+import { loadConfig } from './config.js';
+import minimatch from 'minimatch';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+
+const config = loadConfig();
 
 // Common directories and files to ignore
 const IGNORED_PATTERNS = [
@@ -111,25 +111,30 @@ const buildDirectoryTree = async (rootPath) => {
   return { root, totalToProcess };
 };
 
-async function analyzeWithAI(content, systemPrompt) {
+async function analyzeWithAI(content, metadata) {
   const debug = process.env.DEBUG === 'true';
+  const prompt = config.prompt
+    .replace('{fileCount}', metadata.fileCount)
+    .replace('{childCount}', metadata.childCount)
+    .replace('{includeSubdirs}', metadata.childCount > 0 ? '6. How this directory organizes and uses its subdirectories' : '');
+
   const messages = [
-    { role: 'system', content: systemPrompt },
+    { role: 'system', content: prompt },
     { role: 'user', content }
   ];
 
   if (debug) {
     console.log('\n=== OpenAI Request ===');
-    console.log('System prompt:', systemPrompt);
+    console.log('System prompt:', prompt);
     console.log('Content:', content);
   }
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: config.model,
       messages,
-      temperature: 0.7,
-      max_tokens: 1000
+      temperature: config.temperature,
+      max_tokens: config.maxTokensPerRequest,
     });
 
     const response = completion.choices[0].message.content;
@@ -152,63 +157,41 @@ const analyzeDirectory = async (dirPath, files, childrenAimd = []) => {
     console.log(`🐘 Analyzing directory: ${dirPath}`);
     console.log(`Found ${files.length} relevant files and ${childrenAimd.length} child summaries`);
 
-    // Read the content of each file
+    // Filter files based on configuration
+    const validFiles = files.filter(file => {
+      const relativePath = relative(dirPath, file.path);
+      return config.includeFiles.some(pattern => 
+        minimatch(relativePath, pattern) && 
+        !config.excludePatterns.some(exclude => minimatch(relativePath, exclude))
+      );
+    });
+
+    // Read file contents
     const fileContents = await Promise.all(
-      files.map(async file => {
-        try {
-          const content = await readFile(file.path, 'utf-8');
-          return {
-            name: relative(dirPath, file.path),
-            content: content
-          };
-        } catch (error) {
-          console.error(`Error reading file ${file.path}:`, error);
-          return null;
-        }
+      validFiles.map(async (file) => {
+        const content = await readFile(file.path, 'utf-8');
+        return `File: ${relative(dirPath, file.path)}\n\n${content}`;
       })
     );
 
-    // Filter out any files that couldn't be read
-    const validFiles = fileContents.filter(f => f !== null);
-
-    // If no valid files and no children summaries, skip analysis
-    if (validFiles.length === 0 && childrenAimd.length === 0) {
-      return null;
-    }
-
-    // Create a directory summary for the AI
-    let prompt = '';
-    
-    if (validFiles.length > 0) {
-      prompt += '# Source Files\n\n' + validFiles.map(file => 
-        `File: ${file.name}\n\n${file.content.slice(0, 1000)}${file.content.length > 1000 ? '...' : ''}\n\n`
-      ).join('---\n\n');
-    }
+    let prompt = fileContents.join('\n\n---\n\n');
     
     if (childrenAimd.length > 0) {
-      prompt += '\n# Child Directory Summaries\n\n' + childrenAimd.map(child => 
-        `Directory: ${child.name}\n\n${child.content}\n\n`
-      ).join('---\n\n');
+      prompt += '\n\nChild Directory Summaries:\n\n' + childrenAimd.join('\n\n---\n\n');
     }
 
-    const response = await analyzeWithAI(prompt, `You are a technical documentation expert. Analyze this directory containing ${validFiles.length} files and ${childrenAimd.length} subdirectories.
-Create a comprehensive but concise summary that includes:
-1. The overall purpose of this directory
-2. Key components and their relationships
-3. Important patterns or architectural decisions
-4. Dependencies and external integrations
-5. Any notable conventions or practices
-${childrenAimd.length > 0 ? '6. How this directory organizes and uses its subdirectories' : ''}
+    const analysis = await analyzeWithAI(prompt, {
+      fileCount: validFiles.length,
+      childCount: childrenAimd.length
+    });
 
-Keep the response informative but brief, focusing on what would be most helpful for developers to understand this codebase.`);
-
-    if (response) {
-      const aimdPath = join(dirPath, '.aimd');
-      await writeFile(aimdPath, response, 'utf-8');
-      console.log(`🐘 Successfully analyzed directory: ${relative(dirPath, dirPath)}`);
+    if (analysis) {
+      const aimdPath = join(dirPath, config.outputFile);
+      await writeFile(aimdPath, analysis, 'utf-8');
+      console.log(`🐘 Successfully analyzed directory: ${relative(process.cwd(), dirPath)}`);
     }
 
-    return response;
+    return analysis;
   } catch (error) {
     console.error(`Error analyzing directory ${dirPath}:`, error);
     return null;
@@ -218,7 +201,7 @@ Keep the response informative but brief, focusing on what would be most helpful 
 // Process a single directory node
 const processDirectoryNode = async (node, baseDir, onProgress, processedCount) => {
   const relativePath = relative(baseDir, node.path);
-  const aimdPath = join(node.path, '.aimd');
+  const aimdPath = join(node.path, config.outputFile);
 
   // Check if we need to analyze this directory
   if (node.files.length > 0) {
@@ -244,7 +227,7 @@ const processDirectoryNode = async (node, baseDir, onProgress, processedCount) =
       // Collect child .aimd files
       const childrenAimd = await Promise.all(
         Array.from(node.children.entries()).map(async ([name, childNode]) => {
-          const childAimdPath = join(childNode.path, '.aimd');
+          const childAimdPath = join(childNode.path, config.outputFile);
           const content = await readAimdFile(childAimdPath);
           return content ? { name, content } : null;
         })

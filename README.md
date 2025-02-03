@@ -29,12 +29,43 @@ npm install -g babar-ai
 
 ### Configuration
 
-Create a `.env` file with your OpenAI API key and optional debug setting:
+#### Environment Variables
+
+Create a `.env` file with your OpenAI API key and optional settings:
 
 ```bash
 OPENAI_API_KEY=your-api-key-here
 DEBUG=false  # Set to true to see OpenAI requests and responses
+
+# Optional: Override default prompt and model settings
+BABAR_PROMPT="Your custom prompt for directory analysis"
+BABAR_MODEL="gpt-4"  # or another OpenAI model
+BABAR_TEMPERATURE=0.1  # 0.0 to 1.0
 ```
+
+#### Custom Configuration
+
+Create a `.babarrc.json` file in your project root to customize Babar's behavior:
+
+```json
+{
+  "prompt": "Custom prompt for analyzing directories. Available variables:\n{fileCount} - number of files\n{childCount} - number of subdirectories\n{includeSubdirs} - placeholder for subdirectory instructions",
+  
+  "model": "gpt-4",
+  "temperature": 0.1,
+  
+  "includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
+  "excludePatterns": ["**/node_modules/**", "**/dist/**"],
+  "maxTokensPerRequest": 4000,
+  "outputFile": ".aimd"
+}
+```
+
+### Configuration Priority
+
+1. Environment variables take highest precedence
+2. Project-specific `.babarrc.json`
+3. Default configuration
 
 ### Usage
 
