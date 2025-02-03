@@ -1,4 +1,6 @@
-# Babar 
+# Babar :elephant:
+
+
 
 Babar is an intelligent codebase analyzer designed to bridge the gap between your existing codebase and modern AI-powered development workflows. By recursively analyzing your project's directory structure and creating smart summaries, Babar helps both developers and AI tools better understand and work with your codebase.
 
@@ -22,7 +24,7 @@ As AI-powered development tools become increasingly prevalent, they need rich co
 ### Installation
 
 ```bash
-npm install -g babar
+npm install -g babar-ai
 ```
 
 ### Configuration
@@ -35,6 +37,8 @@ DEBUG=false  # Set to true to see OpenAI requests and responses
 ```
 
 ### Usage
+
+Note: While the package is installed as `babar-ai`, the command is available as `babar` for convenience.
 
 ```bash
 # Analyze a specific directory

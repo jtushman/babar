@@ -14,7 +14,8 @@
     "build": "babel --out-dir=dist source && chmod +x dist/cli.js",
     "dev": "babel --out-dir=dist --watch source",
     "test": "prettier --check . && xo && ava",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "start": "node dist/cli.js"
   },
   "files": [
     "dist",
