@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
-import { processDirectory } from './analyzer.js';
+import { processDirectory } from './analyser.js';
 
 const TaskItem = ({ label, isCompleted, activeDirectories, progress }) => (
   <Box flexDirection="column">

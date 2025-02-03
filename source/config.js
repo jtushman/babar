@@ -1,4 +1,18 @@
+import { z } from "zod"
+
+export const schema = z.object({
+  overview: z.string().describe("A summary of the director's purpose and role in the codebase"),
+  components: z.array(z.string()).describe("List and describe key components, classes, or modules"),
+  architecture: z.string().describe("Explain how components interact and any important patterns"),
+  conventions: z.string().describe("Describe coding standards, patterns, and practices"),
+  refactoringOpportunities: z
+    .array(z.string())
+    .describe("Identify potential improvements"),
+  technicalDebt: z.string().describe("Note any concerning patterns or areas needing attention")
+})
+
 export const defaultConfig = {
+  schema: schema,
   prompt: `You are a technical documentation and code analysis expert. Analyze this directory containing {fileCount} files and {childCount} subdirectories.
 
 Create a markdown document with the following structure:
