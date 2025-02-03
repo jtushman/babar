@@ -113,10 +113,12 @@ const buildDirectoryTree = async (rootPath) => {
 
 async function analyzeWithAI(content, metadata) {
   const debug = process.env.DEBUG === 'true';
+  const timestamp = new Date().toISOString();
   const prompt = config.prompt
     .replace('{fileCount}', metadata.fileCount)
     .replace('{childCount}', metadata.childCount)
-    .replace('{includeSubdirs}', metadata.childCount > 0 ? '6. How this directory organizes and uses its subdirectories' : '');
+    .replace('{timestamp}', timestamp)
+    .replace('{includeSubdirs}', metadata.childCount > 0 ? '## Subdirectories\n[Explain how this directory organizes and uses its subdirectories]' : '');
 
   const messages = [
     { role: 'system', content: prompt },

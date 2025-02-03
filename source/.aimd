@@ -1,0 +1,15 @@
+This directory contains four files responsible for a command-line tool named Babar, which intelligently analyzes a codebase to generate a technical documentation report. 
+
+1. **Overall Purpose**: The directory is designed to analyze a codebase and provide a detailed report, which includes the purpose of the directory, key components, architectural decisions, dependencies, and notable conventions.
+
+2. **Key Components and Relationships**: 
+    - `analyser.js` contains the core logic for analyzing a directory. It uses the OpenAI API to generate a natural language summary of the codebase.
+    - `app.js` is a React component that provides a user interface for the CLI tool. It uses the `analyser.js` to process directories.
+    - `cli.js` is the entry point for the CLI tool. It uses 'meow' for argument parsing and invokes the `app.js` with the provided directory.
+    - `config.js` contains the default configuration for the generated report.
+
+3. **Important Patterns or Architectural decisions**: The tool uses a combination of Node.js file system API and OpenAI's API for intelligent analysis. It also uses React for CLI output, demonstrating an interesting pattern of using React outside a browser environment.
+
+4. **Dependencies and External Integrations**: The tool is dependent on a few external libraries such as 'fs/promises' for file operations, 'openai' for AI analysis, 'react' and 'ink' for the CLI interface, and 'meow' for argument parsing. 
+
+5. **Notable Conventions or Practices**: The tool adheres to common CLI practices, including argument parsing and help messages. It also demonstrates a unique use of AI in codebase analysis, and uses React to render the CLI, which is a novel approach.
