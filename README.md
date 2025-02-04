@@ -167,4 +167,4 @@ For the best results:
 
 ## License
 
-MIT 
+MIT
