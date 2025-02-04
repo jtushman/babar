@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "components": {
+      "type": "array",
+      "description": "Key components and modules",
+      "required": true
+    },
+    "architecture": {
+      "type": "string",
+      "description": "Component interactions and patterns",
+      "required": true
+    },
+    "conventions": {
+      "type": "string",
+      "description": "Coding standards and practices",
+      "required": true
+    },
+    "refactoringOpportunities": {
+      "type": "array",
+      "description": "Potential improvements",
+      "required": true
+    },
+    "technicalDebt": {
+      "type": "string",
+      "description": "Areas needing attention",
+      "required": true
+    }
+  },
+  "promptTemplate": "You are a technical documentation expert analyzing {fileCount} files and {childCount} subdirectories.\n\nCreate a comprehensive analysis following this structure:\n\n{sections}\n\n{includeSubdirs}\n\nFocus on clarity and maintainability. Explain complex concepts clearly.",
+  "model": "gpt-4",
+  "temperature": 0.1,
+  "maxTokensPerRequest": 4000
+}
