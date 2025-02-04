@@ -45,6 +45,7 @@ Babar can be customized using a `.babar.json` file in your project root. This al
 | `maxTokensPerRequest` | Max tokens per API call         | `4000`                         |
 | `includeFiles`        | File patterns to analyze        | `["**/*.js", "**/*.jsx", ...]` |
 | `excludePatterns`     | File patterns to ignore         | `["**/node_modules/**", ...]`  |
+| `outputFile`          | File to write the analysis      | `.babar.md`                    |
 
 Each section in the `sections` object requires:
 
@@ -97,7 +98,8 @@ By default, Babar analyzes your codebase with these sections:
   "temperature": 0.1,
   "maxTokensPerRequest": 4000,
   "includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
-  "excludePatterns": ["**/node_modules/**", "**/dist/**"]
+  "excludePatterns": ["**/node_modules/**", "**/dist/**"],
+  "outputFile": ".babar.md"
 }
 ```
 
@@ -136,7 +138,7 @@ babar --help
 
 ## Using with AI Assistants
 
-To help AI assistants understand your codebase, add this to your assistant's configuration:
+To help AI assistants understand your codebase, add this to your assistant's configuration (such as .windsurfrules or .cursorrules):
 
 ```json
 {
