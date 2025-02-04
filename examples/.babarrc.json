@@ -1,11 +1,33 @@
 {
-  "prompt": "As a domain expert, analyze this {fileCount} files and {childCount} subdirectories.\n\nProvide a technical summary focusing on:\n1. Domain concepts and business logic\n2. Key workflows and processes\n3. Integration points\n4. Data models and relationships\n5. Business rules and constraints\n{includeSubdirs}\n\nKeep it concise but ensure domain-specific terminology is explained.",
-
+  "sections": {
+    "components": {
+      "type": "array",
+      "description": "Key components and modules",
+      "required": true
+    },
+    "architecture": {
+      "type": "string",
+      "description": "Component interactions and patterns",
+      "required": true
+    },
+    "conventions": {
+      "type": "string",
+      "description": "Coding standards and practices",
+      "required": true
+    },
+    "refactoringOpportunities": {
+      "type": "array",
+      "description": "Potential improvements",
+      "required": true
+    },
+    "technicalDebt": {
+      "type": "string",
+      "description": "Areas needing attention",
+      "required": true
+    }
+  },
+  "promptTemplate": "You are a technical documentation expert analyzing {fileCount} files and {childCount} subdirectories.\n\nCreate a comprehensive analysis following this structure:\n\n{sections}\n\n{includeSubdirs}\n\nFocus on clarity and maintainability. Explain complex concepts clearly.",
   "model": "gpt-4",
-  "temperature": 0.2,
-
-  "includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
-  "excludePatterns": ["**/node_modules/**", "**/dist/**", "**/test/**"],
-  "maxTokensPerRequest": 4000,
-  "outputFile": ".aimd"
+  "temperature": 0.1,
+  "maxTokensPerRequest": 4000
 }

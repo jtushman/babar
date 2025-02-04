@@ -77,6 +77,110 @@ babar -d /path/to/your/project
 babar --help
 ```
 
+## Configuration and Customization
+
+Babar can be customized using a `.babarrc.json` file in your project root. This allows you to define:
+
+- Custom analysis sections
+- Prompt templates
+- OpenAI settings
+- File patterns
+
+### Default Configuration
+
+By default, Babar analyzes your codebase with these sections:
+
+```json
+{
+  "sections": {
+    "components": {
+      "type": "array",
+      "description": "Key components and modules",
+      "required": true
+    },
+    "architecture": {
+      "type": "string",
+      "description": "Component interactions and patterns",
+      "required": true
+    },
+    "conventions": {
+      "type": "string",
+      "description": "Coding standards and practices",
+      "required": true
+    },
+    "refactoringOpportunities": {
+      "type": "array",
+      "description": "Potential improvements",
+      "required": true
+    },
+    "technicalDebt": {
+      "type": "string",
+      "description": "Areas needing attention",
+      "required": true
+    }
+  },
+  "promptTemplate": "You are a technical documentation expert analyzing {fileCount} files and {childCount} subdirectories.\n\nCreate a comprehensive analysis following this structure:\n\n{sections}\n\n{includeSubdirs}\n\nFocus on clarity and maintainability. Explain complex concepts clearly.",
+  "model": "gpt-4",
+  "temperature": 0.1,
+  "maxTokensPerRequest": 4000
+}
+```
+
+### Customizing the Analysis
+
+You can customize the analysis by creating your own sections. Each section can be:
+- A string (for narrative content)
+- An array (for lists of items)
+
+Example configuration for domain-focused analysis:
+
+```json
+{
+  "sections": {
+    "domainConcepts": {
+      "type": "array",
+      "description": "Key domain concepts and their definitions",
+      "required": true
+    },
+    "businessLogic": {
+      "type": "string",
+      "description": "Core business rules and workflows",
+      "required": true
+    },
+    "dataModels": {
+      "type": "array",
+      "description": "Data structures and their relationships",
+      "required": true
+    }
+  },
+  "promptTemplate": "As a domain expert, analyze these files focusing on business concepts and logic...",
+  "temperature": 0.2
+}
+```
+
+### Configuration Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `sections` | Define custom analysis sections | See default config |
+| `promptTemplate` | Template for the AI prompt | See default config |
+| `model` | OpenAI model to use | `"gpt-4"` |
+| `temperature` | AI response creativity (0-1) | `0.1` |
+| `maxTokensPerRequest` | Max tokens per API call | `4000` |
+| `includeFiles` | File patterns to analyze | `["**/*.js", "**/*.jsx", ...]` |
+| `excludePatterns` | File patterns to ignore | `["**/node_modules/**", ...]` |
+
+Each section in the `sections` object requires:
+- `type`: Either `"string"` or `"array"`
+- `description`: What the section should contain
+- `required`: Whether the section is required
+
+The `promptTemplate` supports these variables:
+- `{fileCount}`: Number of files being analyzed
+- `{childCount}`: Number of subdirectories
+- `{sections}`: Auto-generated section prompts
+- `{includeSubdirs}`: Subdirectory analysis prompt
+
 ## How It Works
 
 1. Babar recursively scans your project directory
