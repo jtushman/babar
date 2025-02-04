@@ -275,7 +275,7 @@ const processDirectoryNode = async (node, baseDir, onProgress, processedCount) =
         })
       );
 
-      const analysis = await analyzeDirectory(
+      await analyzeDirectory(
         node.path,
         node.files,
         childrenAimd.filter((child) => child !== null)
