@@ -126,7 +126,7 @@ babar --help
 2. For each directory, it:
    - Lists all files and subdirectories
    - Analyzes the contents using GPT-4
-   - Generates a `.aimd` file with the analysis
+   - Generates a `.babar.md` file with the analysis
 3. The analysis includes:
    - Key components and their purposes
    - Architecture patterns
@@ -141,12 +141,12 @@ To help AI assistants understand your codebase, add this to your assistant's con
 ```json
 {
   "contextRules": {
-    "includeFiles": ["**/.aimd"],
+    "includeFiles": ["**/.babar.md"],
     "maxFilesToSearch": 500,
     "maxCharsPerFile": 100000
   },
   "fileSearch": {
-    "include": ["**/.aimd"],
+    "include": ["**/.babar.md"],
     "exclude": [],
     "maxResults": 10
   }
@@ -155,15 +155,15 @@ To help AI assistants understand your codebase, add this to your assistant's con
 
 This configuration:
 
-1. Includes `.aimd` files in the context provided to AI assistants
-2. Prioritizes `.aimd` files during codebase searches
+1. Includes `.babar.md` files in the context provided to AI assistants
+2. Prioritizes `.babar.md` files during codebase searches
 3. Ensures the AI has access to Babar's hierarchical documentation when answering questions about your codebase
 
 For the best results:
 
 - Run Babar before starting new development sessions to ensure up-to-date context
-- Consider adding `.aimd` files to your version control to share context with your team
-- Exclude `.aimd` files from your `.gitignore` if you want to preserve the analysis across clones
+- Consider adding `.babar.md` files to your version control to share context with your team
+- Exclude `.babar.md` files from your `.gitignore` if you want to preserve the analysis across clones
 
 ## License
 
