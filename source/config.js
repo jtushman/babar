@@ -96,7 +96,9 @@ Focus on clarity and maintainability. Explain complex concepts clearly.`,
   excludePatterns: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.git/**'],
 
   // Output settings
-  outputFile: '.aimd',
+  outputFile: '.babar.md',
+
+  // Rest of the code remains the same
 };
 
 export function loadConfig() {

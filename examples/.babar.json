@@ -29,5 +29,6 @@
   "promptTemplate": "You are a technical documentation expert analyzing {fileCount} files and {childCount} subdirectories.\n\nCreate a comprehensive analysis following this structure:\n\n{sections}\n\n{includeSubdirs}\n\nFocus on clarity and maintainability. Explain complex concepts clearly.",
   "model": "gpt-4",
   "temperature": 0.1,
-  "maxTokensPerRequest": 4000
+  "maxTokensPerRequest": 4000,
+  "outputFile": ".babar.md"
 }

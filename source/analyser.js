@@ -23,8 +23,9 @@ const IGNORED_PATTERNS = [
 
 export const shouldIgnorePath = (path) => {
   const name = basename(path);
-  // Ignore dot files/directories (except .aimd files)
-  if (name.startsWith('.') && !name.endsWith('.aimd')) return true;
+  // Ignore dot files/directories (except configured output files)
+  const outputExt = config.outputFile;
+  if (name.startsWith('.') && !name.endsWith(outputExt)) return true;
   // Ignore common patterns
   return IGNORED_PATTERNS.some((pattern) => path.includes(pattern));
 };
