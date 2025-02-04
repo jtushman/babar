@@ -11,8 +11,8 @@
     "node": ">=16"
   },
   "scripts": {
-    "build": "babel --out-dir=dist source && chmod +x dist/cli.js",
-    "dev": "babel --out-dir=dist --watch source",
+    "build": "babel --out-dir=dist --extensions '.js,.jsx' source && chmod +x dist/cli.js",
+    "dev": "babel --out-dir=dist --watch --extensions '.js,.jsx' source",
     "test": "vitest",
     "test:ci": "vitest run",
     "lint": "eslint .",

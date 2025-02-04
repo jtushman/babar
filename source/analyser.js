@@ -1,19 +1,10 @@
 import { readdir } from 'fs/promises';
-import Instructor from '@instructor-ai/instructor';
 import { readFile, writeFile, stat } from 'fs/promises';
 import { join, relative, basename } from 'path';
 import { OpenAI } from 'openai';
+import Instructor from '@instructor-ai/instructor';
 import { loadConfig } from './config.js';
 import minimatch from 'minimatch';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const instructor = Instructor({
-  client: openai,
-  mode: 'TOOLS',
-});
 
 const config = loadConfig();
 
@@ -30,7 +21,7 @@ const IGNORED_PATTERNS = [
   'vendor',
 ];
 
-const shouldIgnorePath = (path) => {
+export const shouldIgnorePath = (path) => {
   const name = basename(path);
   // Ignore dot files/directories (except .aimd files)
   if (name.startsWith('.') && !name.endsWith('.aimd')) return true;
@@ -38,9 +29,27 @@ const shouldIgnorePath = (path) => {
   return IGNORED_PATTERNS.some((pattern) => path.includes(pattern));
 };
 
-const isRelevantFile = (path) => {
+export const isRelevantFile = (path) => {
   const validExtensions = ['.js', '.jsx', '.ts', '.tsx', '.py', '.go', '.java', '.rb'];
   return validExtensions.some((ext) => path.endsWith(ext));
+};
+
+// Initialize OpenAI only when needed
+const getOpenAIClient = () => {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY environment variable is required for AI analysis');
+  }
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+};
+
+const getInstructorClient = () => {
+  const openai = getOpenAIClient();
+  return Instructor({
+    client: openai,
+    mode: 'TOOLS',
+  });
 };
 
 // Read .aimd file if it exists
@@ -144,6 +153,7 @@ async function analyzeWithAI(content, metadata) {
   }
 
   try {
+    const instructor = getInstructorClient();
     const completion = await instructor.chat.completions.create({
       model: config.model,
       messages,
