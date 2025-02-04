@@ -9,6 +9,7 @@ This document tracks planned features and improvements for Babar.
 Add a watch mode that continuously monitors the codebase for changes and updates `.aimd` files automatically.
 
 **Details:**
+
 - Command: `babar watch -d <directory>`
 - Watches for file changes in the specified directory
 - Only re-analyzes directories affected by changes (and their parent directories)
@@ -16,6 +17,7 @@ Add a watch mode that continuously monitors the codebase for changes and updates
 - Optional debounce configuration to prevent too frequent updates
 
 **Implementation Considerations:**
+
 - Use `chokidar` or similar for file watching
 - Implement smart caching to only update affected directories
 - Add configuration options for ignore patterns
@@ -26,6 +28,7 @@ Add a watch mode that continuously monitors the codebase for changes and updates
 Add support for running Babar with local LLMs through Ollama integration.
 
 **Details:**
+
 - Allow configuration of different LLM backends
 - Support for Ollama's API
 - Configuration in `.env`:
@@ -36,6 +39,7 @@ Add support for running Babar with local LLMs through Ollama integration.
   ```
 
 **Implementation Considerations:**
+
 - Abstract the LLM interface to support multiple providers
 - Add model-specific prompt templates
 - Support for different token limits and capabilities
@@ -44,6 +48,7 @@ Add support for running Babar with local LLMs through Ollama integration.
 ## Contributing
 
 If you'd like to work on implementing any of these features:
+
 1. Open an issue to discuss the implementation approach
 2. Reference the feature request in your PR
 3. Update documentation to reflect the new functionality

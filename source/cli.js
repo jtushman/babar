@@ -5,7 +5,7 @@ import meow from 'meow';
 import App from './app.js';
 
 const cli = meow(
-  `
+	`
     Usage
       $ babar -d <directory>
 
@@ -18,16 +18,16 @@ const cli = meow(
     Examples
       $ babar -d /path/to/your/project
   `,
-  {
-    importMeta: import.meta,
-    flags: {
-      directory: {
-        type: 'string',
-        alias: 'd',
-        required: true
-      }
-    }
-  }
+	{
+		importMeta: import.meta,
+		flags: {
+			directory: {
+				type: 'string',
+				alias: 'd',
+				required: true,
+			},
+		},
+	},
 );
 
 render(<App directory={cli.flags.directory} />);

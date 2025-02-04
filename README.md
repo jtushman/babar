@@ -1,7 +1,5 @@
 # Babar :elephant:
 
-
-
 Babar is an intelligent codebase analyzer designed to bridge the gap between your existing codebase and modern AI-powered development workflows. By recursively analyzing your project's directory structure and creating smart summaries, Babar helps both developers and AI tools better understand and work with your codebase.
 
 ## Why Babar?
@@ -49,15 +47,15 @@ Create a `.babarrc.json` file in your project root to customize Babar's behavior
 
 ```json
 {
-  "prompt": "Custom prompt for analyzing directories. Available variables:\n{fileCount} - number of files\n{childCount} - number of subdirectories\n{includeSubdirs} - placeholder for subdirectory instructions",
-  
-  "model": "gpt-4",
-  "temperature": 0.1,
-  
-  "includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
-  "excludePatterns": ["**/node_modules/**", "**/dist/**"],
-  "maxTokensPerRequest": 4000,
-  "outputFile": ".aimd"
+	"prompt": "Custom prompt for analyzing directories. Available variables:\n{fileCount} - number of files\n{childCount} - number of subdirectories\n{includeSubdirs} - placeholder for subdirectory instructions",
+
+	"model": "gpt-4",
+	"temperature": 0.1,
+
+	"includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
+	"excludePatterns": ["**/node_modules/**", "**/dist/**"],
+	"maxTokensPerRequest": 4000,
+	"outputFile": ".aimd"
 }
 ```
 
@@ -98,29 +96,29 @@ To help AI assistants better understand your codebase, add the following to your
 
 ```json
 {
-  "contextRules": {
-    "includeFiles": [
-      "**/.aimd"
-    ],
-    "maxFilesToSearch": 500,
-    "maxCharsPerFile": 100000
-  },
-  "searchPaths": [
-    {
-      "path": ".",
-      "pattern": "**/.aimd",
-      "maxFiles": 50
-    }
-  ]
+	"contextRules": {
+		"includeFiles": ["**/.aimd"],
+		"maxFilesToSearch": 500,
+		"maxCharsPerFile": 100000
+	},
+	"searchPaths": [
+		{
+			"path": ".",
+			"pattern": "**/.aimd",
+			"maxFiles": 50
+		}
+	]
 }
 ```
 
 This configuration:
+
 1. Includes `.aimd` files in the context provided to AI assistants
 2. Prioritizes `.aimd` files during codebase searches
 3. Ensures the AI has access to Babar's hierarchical documentation when answering questions about your codebase
 
 For the best results:
+
 - Run Babar before starting new development sessions to ensure up-to-date context
 - Consider adding `.aimd` files to your version control to share context with your team
 - Exclude `.aimd` files from your `.gitignore` if you want to preserve the analysis across clones
