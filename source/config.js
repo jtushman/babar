@@ -1,29 +1,17 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 export const schema = z.object({
-	overview: z
-		.string()
-		.describe("A summary of the director's purpose and role in the codebase"),
-	components: z
-		.array(z.string())
-		.describe('List and describe key components, classes, or modules'),
-	architecture: z
-		.string()
-		.describe('Explain how components interact and any important patterns'),
-	conventions: z
-		.string()
-		.describe('Describe coding standards, patterns, and practices'),
-	refactoringOpportunities: z
-		.array(z.string())
-		.describe('Identify potential improvements'),
-	technicalDebt: z
-		.string()
-		.describe('Note any concerning patterns or areas needing attention'),
+  overview: z.string().describe("A summary of the director's purpose and role in the codebase"),
+  components: z.array(z.string()).describe('List and describe key components, classes, or modules'),
+  architecture: z.string().describe('Explain how components interact and any important patterns'),
+  conventions: z.string().describe('Describe coding standards, patterns, and practices'),
+  refactoringOpportunities: z.array(z.string()).describe('Identify potential improvements'),
+  technicalDebt: z.string().describe('Note any concerning patterns or areas needing attention'),
 });
 
 export const defaultConfig = {
-	schema: schema,
-	prompt: `You are a technical documentation and code analysis expert. Analyze this directory containing {fileCount} files and {childCount} subdirectories.
+  schema: schema,
+  prompt: `You are a technical documentation and code analysis expert. Analyze this directory containing {fileCount} files and {childCount} subdirectories.
 
 Create a markdown document with the following structure:
 
@@ -61,53 +49,40 @@ Create a markdown document with the following structure:
 
 Keep the response in this exact markdown structure for consistent parsing. Focus on what would be most helpful for developers to understand and improve this codebase.`,
 
-	// OpenAI API settings
-	model: 'gpt-4',
-	temperature: 0.1,
+  // OpenAI API settings
+  model: 'gpt-4',
+  temperature: 0.1,
 
-	// Analysis settings
-	includeFiles: [
-		'**/*.js',
-		'**/*.jsx',
-		'**/*.ts',
-		'**/*.tsx',
-		'**/*.py',
-		'**/*.rb',
-		'**/*.go',
-	],
-	excludePatterns: [
-		'**/node_modules/**',
-		'**/dist/**',
-		'**/build/**',
-		'**/.git/**',
-	],
-	maxTokensPerRequest: 4000,
+  // Analysis settings
+  includeFiles: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.py', '**/*.rb', '**/*.go'],
+  excludePatterns: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.git/**'],
+  maxTokensPerRequest: 4000,
 
-	// Output settings
-	outputFile: '.aimd',
+  // Output settings
+  outputFile: '.aimd',
 };
 
 export function loadConfig() {
-	let config = {...defaultConfig};
+  let config = { ...defaultConfig };
 
-	// Override with environment variables if present
-	if (process.env.BABAR_PROMPT) {
-		config.prompt = process.env.BABAR_PROMPT;
-	}
-	if (process.env.BABAR_MODEL) {
-		config.model = process.env.BABAR_MODEL;
-	}
-	if (process.env.BABAR_TEMPERATURE) {
-		config.temperature = parseFloat(process.env.BABAR_TEMPERATURE);
-	}
+  // Override with environment variables if present
+  if (process.env.BABAR_PROMPT) {
+    config.prompt = process.env.BABAR_PROMPT;
+  }
+  if (process.env.BABAR_MODEL) {
+    config.model = process.env.BABAR_MODEL;
+  }
+  if (process.env.BABAR_TEMPERATURE) {
+    config.temperature = parseFloat(process.env.BABAR_TEMPERATURE);
+  }
 
-	// Look for .babarrc.json in the current directory or parent directories
-	try {
-		const userConfig = require(process.cwd() + '/.babarrc.json');
-		config = {...config, ...userConfig};
-	} catch (error) {
-		// No config file found, use defaults
-	}
+  // Look for .babarrc.json in the current directory or parent directories
+  try {
+    const userConfig = require(process.cwd() + '/.babarrc.json');
+    config = { ...config, ...userConfig };
+  } catch (error) {
+    // No config file found, use defaults
+  }
 
-	return config;
+  return config;
 }

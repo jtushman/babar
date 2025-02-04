@@ -47,15 +47,15 @@ Create a `.babarrc.json` file in your project root to customize Babar's behavior
 
 ```json
 {
-	"prompt": "Custom prompt for analyzing directories. Available variables:\n{fileCount} - number of files\n{childCount} - number of subdirectories\n{includeSubdirs} - placeholder for subdirectory instructions",
+  "prompt": "Custom prompt for analyzing directories. Available variables:\n{fileCount} - number of files\n{childCount} - number of subdirectories\n{includeSubdirs} - placeholder for subdirectory instructions",
 
-	"model": "gpt-4",
-	"temperature": 0.1,
+  "model": "gpt-4",
+  "temperature": 0.1,
 
-	"includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
-	"excludePatterns": ["**/node_modules/**", "**/dist/**"],
-	"maxTokensPerRequest": 4000,
-	"outputFile": ".aimd"
+  "includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
+  "excludePatterns": ["**/node_modules/**", "**/dist/**"],
+  "maxTokensPerRequest": 4000,
+  "outputFile": ".aimd"
 }
 ```
 
@@ -96,18 +96,18 @@ To help AI assistants better understand your codebase, add the following to your
 
 ```json
 {
-	"contextRules": {
-		"includeFiles": ["**/.aimd"],
-		"maxFilesToSearch": 500,
-		"maxCharsPerFile": 100000
-	},
-	"searchPaths": [
-		{
-			"path": ".",
-			"pattern": "**/.aimd",
-			"maxFiles": 50
-		}
-	]
+  "contextRules": {
+    "includeFiles": ["**/.aimd"],
+    "maxFilesToSearch": 500,
+    "maxCharsPerFile": 100000
+  },
+  "searchPaths": [
+    {
+      "path": ".",
+      "pattern": "**/.aimd",
+      "maxFiles": 50
+    }
+  ]
 }
 ```
 

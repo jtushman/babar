@@ -1,11 +1,11 @@
 {
-	"prompt": "As a domain expert, analyze this {fileCount} files and {childCount} subdirectories.\n\nProvide a technical summary focusing on:\n1. Domain concepts and business logic\n2. Key workflows and processes\n3. Integration points\n4. Data models and relationships\n5. Business rules and constraints\n{includeSubdirs}\n\nKeep it concise but ensure domain-specific terminology is explained.",
+  "prompt": "As a domain expert, analyze this {fileCount} files and {childCount} subdirectories.\n\nProvide a technical summary focusing on:\n1. Domain concepts and business logic\n2. Key workflows and processes\n3. Integration points\n4. Data models and relationships\n5. Business rules and constraints\n{includeSubdirs}\n\nKeep it concise but ensure domain-specific terminology is explained.",
 
-	"model": "gpt-4",
-	"temperature": 0.2,
+  "model": "gpt-4",
+  "temperature": 0.2,
 
-	"includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
-	"excludePatterns": ["**/node_modules/**", "**/dist/**", "**/test/**"],
-	"maxTokensPerRequest": 4000,
-	"outputFile": ".aimd"
+  "includeFiles": ["**/*.js", "**/*.py", "**/*.rb"],
+  "excludePatterns": ["**/node_modules/**", "**/dist/**", "**/test/**"],
+  "maxTokensPerRequest": 4000,
+  "outputFile": ".aimd"
 }
