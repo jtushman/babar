@@ -8,7 +8,7 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "scripts": {
     "build": "babel --out-dir=dist source && chmod +x dist/cli.js",
