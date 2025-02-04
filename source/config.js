@@ -104,7 +104,7 @@ export function loadConfig() {
 
   // Try to load user config
   try {
-    const userConfig = require(process.cwd() + '/.babarrc.json');
+    const userConfig = require(process.cwd() + '/.babar.json');
     config = {
       ...config,
       ...userConfig,
