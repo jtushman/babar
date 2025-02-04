@@ -24,7 +24,9 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci
+      run: |
+        npm install
+        npm ls openai || true  # Log OpenAI version for debugging
       
     - name: Run linting
       run: npm run lint
