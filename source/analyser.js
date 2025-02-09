@@ -4,7 +4,7 @@ import { join, relative, basename } from 'path';
 import { OpenAI } from 'openai';
 import Instructor from '@instructor-ai/instructor';
 import { loadConfig } from './config.js';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 
 const config = loadConfig();
 
