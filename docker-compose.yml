@@ -20,6 +20,12 @@ services:
       - ollama_data:/root/.ollama
     ports:
       - '11434:11434'
+    deploy:
+      resources:
+        limits:
+          memory: 12G
+        reservations:
+          memory: 8G
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 5s
@@ -31,7 +37,8 @@ services:
     depends_on:
       ollama:
         condition: service_healthy
-    command: ["sh", "-c", "curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"llama2\"}'"]
+    command: >
+      sh -c "curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"llama2\"}'"
 
 volumes:
   ollama_data:

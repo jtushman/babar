@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { readFile } from 'fs/promises';
 
 // Base schema that all analyses must include
 const baseSchema = z.object({
@@ -112,19 +113,31 @@ Focus on clarity and maintainability. Explain complex concepts clearly.`,
   // Rest of the code remains the same
 };
 
-export function loadConfig() {
+export async function loadConfig() {
   let config = { ...defaultConfig };
 
   // Try to load user config
   try {
-    const userConfig = require(process.cwd() + '/.babar.json');
+    const configPath = process.cwd() + '/.babar.json';
+    const userConfig = JSON.parse(await readFile(configPath, 'utf-8'));
+    console.log('Loaded user config:', JSON.stringify(userConfig, null, 2));
     config = {
       ...config,
       ...userConfig,
       // Merge sections rather than replace
       sections: { ...config.sections, ...(userConfig.sections || {}) },
+      // Properly merge LLM settings
+      llm: {
+        ...config.llm,
+        ...userConfig.llm,
+        // Ensure provider-specific settings are merged
+        openai: { ...config.llm?.openai, ...userConfig.llm?.openai },
+        ollama: { ...config.llm?.ollama, ...userConfig.llm?.ollama },
+      },
     };
+    console.log('Final merged config:', JSON.stringify(config.llm, null, 2));
   } catch (error) {
+    console.error('Error loading config:', error);
     // No config file found, use defaults
   }
 

@@ -29,6 +29,8 @@ export class OpenAIProvider extends BaseLLMProvider {
   async complete(prompt, options = {}) {
     const messages = Array.isArray(prompt) ? prompt : [{ role: 'user', content: prompt }];
 
+    console.log(`\n🤖 Sending request to OpenAI (${this.config.model})...`);
+
     const requestOptions = {
       model: options.model || this.config.model,
       messages,
@@ -55,6 +57,8 @@ export class OpenAIProvider extends BaseLLMProvider {
 
   async *stream(prompt, options = {}) {
     const messages = Array.isArray(prompt) ? prompt : [{ role: 'user', content: prompt }];
+
+    console.log(`\n🤖 Sending request to OpenAI (${this.config.model})...`);
 
     const requestOptions = {
       model: options.model || this.config.model,

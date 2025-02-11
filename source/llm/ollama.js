@@ -5,12 +5,15 @@ export class OllamaProvider extends BaseLLMProvider {
     super();
     this.endpoint = config.endpoint || 'http://localhost:11434';
     this.model = config.model || 'llama2';
+    this.options = config.options || {};
   }
 
   async complete(prompt, options = {}) {
     const messages = Array.isArray(prompt) ? prompt : [{ role: 'user', content: prompt }];
     const combinedPrompt = messages.map((m) => `${m.role}: ${m.content}`).join('\n');
 
+    console.log(`\n🤖 Sending request to Ollama (${this.model})...`);
+    
     const response = await fetch(`${this.endpoint}/api/generate`, {
       method: 'POST',
       headers: {
@@ -24,6 +27,7 @@ export class OllamaProvider extends BaseLLMProvider {
           temperature: options.temperature || 0.1,
           top_p: options.top_p || 1,
           max_tokens: options.max_tokens,
+          ...this.options,
         },
       }),
     });
@@ -79,6 +83,8 @@ export class OllamaProvider extends BaseLLMProvider {
     const messages = Array.isArray(prompt) ? prompt : [{ role: 'user', content: prompt }];
     const combinedPrompt = messages.map((m) => `${m.role}: ${m.content}`).join('\n');
 
+    console.log(`\n🤖 Sending request to Ollama (${this.model})...`);
+    
     const response = await fetch(`${this.endpoint}/api/generate`, {
       method: 'POST',
       headers: {
@@ -92,6 +98,7 @@ export class OllamaProvider extends BaseLLMProvider {
           temperature: options.temperature || 0.1,
           top_p: options.top_p || 1,
           max_tokens: options.max_tokens,
+          ...this.options,
         },
       }),
     });

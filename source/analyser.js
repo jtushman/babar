@@ -5,7 +5,7 @@ import { loadConfig } from './config.js';
 import minimatch from 'minimatch';
 import { createLLMProvider } from './llm/factory.js';
 
-const config = loadConfig();
+const config = await loadConfig();
 
 // Common directories and files to ignore
 const IGNORED_PATTERNS = [
