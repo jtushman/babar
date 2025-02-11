@@ -13,7 +13,7 @@ export class OllamaProvider extends BaseLLMProvider {
     const combinedPrompt = messages.map((m) => `${m.role}: ${m.content}`).join('\n');
 
     console.log(`\n🤖 Sending request to Ollama (${this.model})...`);
-    
+
     const response = await fetch(`${this.endpoint}/api/generate`, {
       method: 'POST',
       headers: {
@@ -84,7 +84,7 @@ export class OllamaProvider extends BaseLLMProvider {
     const combinedPrompt = messages.map((m) => `${m.role}: ${m.content}`).join('\n');
 
     console.log(`\n🤖 Sending request to Ollama (${this.model})...`);
-    
+
     const response = await fetch(`${this.endpoint}/api/generate`, {
       method: 'POST',
       headers: {
