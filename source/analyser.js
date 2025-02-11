@@ -2,7 +2,7 @@ import { readdir } from 'fs/promises';
 import { readFile, writeFile, stat } from 'fs/promises';
 import { join, relative, basename } from 'path';
 import { loadConfig } from './config.js';
-import { minimatch } from 'minimatch';
+import minimatch from 'minimatch';
 import { createLLMProvider } from './llm/factory.js';
 
 const config = loadConfig();
