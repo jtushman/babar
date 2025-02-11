@@ -86,10 +86,21 @@ Create a comprehensive analysis following this structure:
 
 Focus on clarity and maintainability. Explain complex concepts clearly.`,
 
-  // OpenAI settings
-  model: 'gpt-4',
-  temperature: 0.1,
-  maxTokensPerRequest: 4000,
+  // LLM settings
+  llm: {
+    provider: 'openai', // 'openai' or 'ollama'
+    openai: {
+      model: 'gpt-4',
+      temperature: 0.1,
+      maxTokensPerRequest: 4000,
+    },
+    ollama: {
+      endpoint: 'http://localhost:11434',
+      model: 'llama2',
+      temperature: 0.1,
+      maxTokensPerRequest: 4000,
+    },
+  },
 
   // File patterns
   includeFiles: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.py', '**/*.rb', '**/*.go'],
