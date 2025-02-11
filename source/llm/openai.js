@@ -11,6 +11,7 @@ export class OpenAIProvider extends BaseLLMProvider {
 
     this.client = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true
     });
 
     this.instructor = Instructor({

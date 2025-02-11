@@ -38,7 +38,7 @@ describe('LLM Integration', () => {
         },
         body: JSON.stringify({
           model: 'llama2',
-          prompt: 'test prompt',
+          prompt: 'user: test prompt',
           stream: false,
           options: {
             temperature: 0.5,
