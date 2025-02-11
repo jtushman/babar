@@ -15,15 +15,8 @@ const defaultSectionsSchema = z.object({
   technicalDebt: z.string().describe('Areas needing attention'),
 });
 
-// // Schema for user-defined custom sections in .babarrc.json
-// z.object({
-//   type: z.enum(['string', 'array']).describe('Type of the section content'),
-//   description: z.string().describe('Description for the AI model'),
-//   required: z.boolean().default(false).describe('Whether this section is required'),
-// });
-
 // Helper to convert user config sections to Zod schema
-function buildSchemaFromConfig(config) {
+export function buildSchemaFromConfig(config) {
   const customSections = config.sections || {};
   const customSchema = Object.entries(customSections).reduce((acc, [key, section]) => {
     const fieldSchema =
@@ -46,7 +39,7 @@ function buildSchemaFromConfig(config) {
 }
 
 // Helper to generate prompt from schema
-function generatePromptFromSchema(schema) {
+export function generatePromptFromSchema(schema) {
   const descriptions = Object.entries(schema.shape).map(([key, field]) => {
     const desc = field.description;
     const type = field instanceof z.ZodArray ? 'array' : 'string';
